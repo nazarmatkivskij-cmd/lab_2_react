@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Назар Матківський - CV</title>
+
+    <!-- 1. EXTERNAL: Зовнішній спосіб підключення стилів -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- 2. INTERNAL: Внутрішній спосіб підключення стилів -->
+    <style>
+        .internal-box {
+            background-color: #f9f9f9;
+            border-left: 4px solid #3498db;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 3. INLINE: Вбудований спосіб підключення стилів (атрибут style) -->
+    <header style="border-bottom: 3px solid #2c3e50;">
+        <h1 id="main-title">Назар Матківський</h1>
+        <p>Software Developer & Security Enthusiast</p>
+    </header>
+
+    <hr>
+
+    <!-- клас .main-container для Flexbox макета -->
+    <main class="main-container">
+        <!-- Experience.jsx -->
+        <section class="internal-box">
+            <h2>Про мене та досвід</h2>
+            <p>Мотивований розробник, захоплююсь створенням програмного забезпечення, C# та Python.</p>
+        </section>
+
+        <!-- Skills.jsx -->
+        <section>
+            <h2>Навички</h2>
+            <ul>
+                <li>C# / WinForms</li>
+                <li>Python</li>
+                <li>HTML / React / Git</li>
+                <li>Networking</li>
+            </ul>
+            <!-- Додано поле вводу для демонстрації селектора -->
+            <div style="margin-top: 10px;">
+                <input type="text" placeholder="Ваше повідомлення...">
+                <button type="submit">Надіслати</button>
+            </div>
+        </section>
+
+        <!-- Education.jsx -->
+        <section>
+            <h2>Освіта</h2>
+            <p>Спеціальність: Кібербезпека (Група КБ-205)</p>
+        </section>
+    </main>
+
+    <hr>
+
+    <!-- Footer.jsx -->
+    <footer>
+        <p>
+            Контакти:
+            <a href="https://github.com/nazarmatkivskij-cmd" target="_blank" rel="noopener noreferrer">GitHub</a> |
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=nazarmatkivskij@gmail.com">Email</a>
+        </p>
+    </footer>
+
+</body>
+</html>

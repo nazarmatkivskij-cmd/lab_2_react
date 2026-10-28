@@ -1,0 +1,56 @@
+/* 1. Явне керування блоковою моделлю  */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* 2. Селектор тегу */
+header {
+  background-color: #2c3e50;
+  color: white;
+  padding: 20px;
+}
+
+/* 3. Селектор класу (Макет на Flexbox) */
+.main-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* 4. Селектор ID */
+#main-title {
+  font-size: 2rem;
+  text-align: center;
+}
+
+/* 5. Селектор атрибуту */
+input[type="text"] {
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+
+/* 6. Псевдокласи (hover та focus) */
+a:hover {
+  color: #3498db;
+  text-decoration: underline;
+}
+
+button:focus {
+  outline: 2px solid #e74c3c;
+}
+
+/* 7. Медіазапит для вузьких екранів */
+@media (max-width: 768px) {
+  .main-container {
+    flex-direction: column;
+  }
+}
