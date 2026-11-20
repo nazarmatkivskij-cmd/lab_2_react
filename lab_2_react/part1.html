@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Лабораторна робота №4 - Частина 1</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; display: flex; flex-direction: column; min-height: 100vh; transition: background 0.3s, color 0.3s; }
+        main { flex: 1; padding: 20px; }
+        footer { background: #333; color: #fff; text-align: center; padding: 15px; margin-top: auto; }
+        .comment-card { background: #f9f9f9; border: 1px solid #ddd; padding: 12px; margin-bottom: 10px; border-radius: 6px; }
+
+        /* Стилі для темної/нічної теми (Пункт 4) */
+        body.dark-mode { background-color: #121212; color: #ffffff; }
+        body.dark-mode footer { background-color: #1f1f1f; color: #ccc; }
+        body.dark-mode .comment-card { background: #1e1e1e; border-color: #333; color: #ddd; }
+    </style>
+</head>
+<body>
+
+    <main>
+        <!-- Кнопка ручного перемикання теми (Пункт 4) -->
+        <button id="theme-toggle" style="margin-bottom: 20px; padding: 8px 15px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc;">Змінити тему</button>
+
+        <h1>Головна сторінка</h1>
+        <p>Лабораторна робота №4 (Частина 1 - Класичний JavaScript)</p>
+
+        <!-- Контейнер для коментарів (Пункт 2) -->
+        <section id="comments-section">
+            <h2>Коментарі попередніх роботодавців (Варіант 15)</h2>
+            <div id="comments-container">Завантаження коментарів...</div>
+        </section>
+    </main>
+
+    <!-- Футер, де виводимо дані з localStorage (Пункт 1) -->
+    <footer id="footer">
+        <p>© 2026 Мій сайт</p>
+    </footer>
+
+    <!-- HTML для модального вікна (Пункт 3) -->
+    <div id="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index: 1000;">
+        <div style="background:white; padding:20px; border-radius:8px; width:300px; position:relative; color: black;">
+            <h3>Зворотний зв'язок</h3>
+            <form action="https://formspree.io/f/xbgodnrk" method="POST">
+                <label>Ім'я:<br><input type="text" name="name" required style="width:100%; margin-bottom:10px;"></label><br>
+                <label>Email:<br><input type="email" name="email" required style="width:100%; margin-bottom:10px;"></label><br>
+                <label>Телефон:<br><input type="tel" name="phone" style="width:100%; margin-bottom:10px;"></label><br>
+                <label>Повідомлення:<br><textarea name="message" required style="width:100%; margin-bottom:10px;"></textarea></label><br>
+                <button type="submit" style="background:#0066cc; color:white; padding:8px 15px; border:none; border-radius:4px; cursor:pointer;">Надіслати</button>
+            </form>
+            <button id="close-modal" style="position:absolute; top:10px; right:10px; background:none; border:none; font-size:16px; cursor:pointer;">✖</button>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // ПУНКТ 1: Зберігання даних у браузері (localStorage)
+        // ==========================================
+        const sysInfo = {
+            platform: navigator.platform,
+            userAgent: navigator.userAgent
+        };
+
+        localStorage.setItem('systemInfo', JSON.stringify(sysInfo));
+
+        const savedInfo = JSON.parse(localStorage.getItem('systemInfo'));
+        const footer = document.getElementById('footer');
+        if (savedInfo) {
+            footer.innerHTML += `
+                <div style="font-size: 12px; color: #aaa; margin-top: 8px;">
+                    <p>Платформа: ${savedInfo.platform}</p>
+                    <p>Браузер: ${savedInfo.userAgent}</p>
+                </div>
+            `;
+        }
+
+        // ==========================================
+        // ПУНКТ 2: Відображення вмісту з сервера (Fetch API)
+        // ==========================================
+        fetch('https://jsonplaceholder.typicode.com/posts/15/comments')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('comments-container');
+                container.innerHTML = '';
+
+                data.forEach(comment => {
+                    const commentDiv = document.createElement('div');
+                    commentDiv.className = 'comment-card';
+                    commentDiv.innerHTML = `
+                        <h4 style="margin: 0 0 5px 0; color: #0066cc;">${comment.name}</h4>
+                        <p style="margin: 0 0 5px 0; font-size: 14px;">${comment.body}</p>
+                        <small style="color: #666;">Email: ${comment.email}</small>
+                    `;
+                    container.appendChild(commentDiv);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('comments-container').innerText = 'Помилка завантаження даних із сервера.';
+            });
+
+        // ==========================================
+        // ПУНКТ 3: Модальне вікно через 1 хвилину
+        // ==========================================
+        setTimeout(() => {
+            const modal = document.getElementById('modal');
+            if (modal) {
+                modal.style.display = 'flex';
+            }
+        }, 60000); // 60000 мс = 1 хвилина
+
+        // Кнопка закриття модального вікна (хрестик)
+        document.getElementById('close-modal').addEventListener('click', () => {
+            document.getElementById('modal').style.display = 'none';
+        });
+
+        // ==========================================
+        // ПУНКТ 4: Перехід на нічний/денний режим
+        // ==========================================
+        const currentHour = new Date().getHours();
+        const bodyElement = document.body;
+        const themeButton = document.getElementById('theme-toggle');
+
+        if (currentHour >= 7 && currentHour < 21) {
+            bodyElement.classList.remove('dark-mode');
+            themeButton.innerText = 'Нічна тема';
+        } else {
+            bodyElement.classList.add('dark-mode');
+            themeButton.innerText = 'Світла тема';
+        }
+
+        themeButton.addEventListener('click', () => {
+            bodyElement.classList.toggle('dark-mode');
+            if (bodyElement.classList.contains('dark-mode')) {
+                themeButton.innerText = 'Світла тема';
+            } else {
+                themeButton.innerText = 'Нічна тема';
+            }
+        });
+    </script>
+</body>
+</html>
